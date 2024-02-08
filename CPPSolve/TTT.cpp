@@ -20,6 +20,10 @@ u32 TTT::mirror(u32 position) {
            (position & TTT::R_MASK) << 4;
 }
 
+u32 TTT::rotateR(u32 position) {
+    
+}
+
 u32 TTT::makeMove(u32 position, u32 move) {
     return position | move;
 }

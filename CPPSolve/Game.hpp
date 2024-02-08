@@ -8,13 +8,20 @@
 #ifndef Game_hpp
 #define Game_hpp
 
+#include <stdint.h>
+
+typedef uint8_t u8;
+typedef uint32_t u32;
+
 class Game {
 public:
     Game();
     ~Game();
-    virtual unsigned makeMove() = 0;
-    virtual unsigned genMoves() = 0;
-    virtual unsigned primitiveValue() = 0;
+    virtual u32 makeMove() = 0;
+    virtual u32* genMoves() = 0;
+    virtual u32 primitiveValue() = 0;
+    virtual void addCache() = 0;
+    virtual u8 getCache() = 0;
 };
 
 #endif /* Game_hpp */

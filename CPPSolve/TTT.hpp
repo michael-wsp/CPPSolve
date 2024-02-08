@@ -13,10 +13,7 @@
  Each square on the board is 2 bits, as defined below.
  This is not completely efficient (0b11 is not used) but it allows me to use
  bitwise operators to compare and modify game states.
- This game state uses slightly more than half the space a 9-char string
- would! (28 vs 50 bytes, according to sys.getsizeof())
- I also implemented this in C++ where this string would use 10 bytes and
- an unsigned int uses 4 bytes, which is even better.
+ This game state uses 40% the space a 9-char string would.
  ---
  Game outcomes are also represented with integers, with a primitive state
  "modifier" as defined below
@@ -30,42 +27,71 @@
 #define TTT_hpp
 
 #include <stdint.h>
+#include <unordered_map>
+
 #include "Game.hpp"
+
+typedef uint8_t u8;
+typedef uint32_t u32;
 
 class TTT: public Game {
 private:
-    static const unsigned BOARD_EMPTY = 0;
+    static const u32 BOARD_EMPTY = 0;
     
-    static const uint8_t PLAYER_X = 0b01;
-    static const uint8_t PLAYER_Y = 0b10;
-    static const uint8_t PLAYER_MASK = 0b11;
+    static const u8 PLAYER_X = 0b01;
+    static const u8 PLAYER_Y = 0b10;
+    static const u8 PLAYER_MASK = 0b11;
     
-    static const uint8_t WIN = 0b01;
-    static const uint8_t TIE = 0b00;
-    static const uint8_t LOSE = 0b10;
-    static const uint8_t WL_MASK = 0b11;
-    static const uint8_t PRIMITIVE = 0b100;
+    static const u8 WIN = 0b01;
+    static const u8 TIE = 0b00;
+    static const u8 LOSE = 0b10;
+    static const u8 WL_MASK = 0b11;
+    static const u8 PRIMITIVE = 0b100;
+    static const u8 NOT_PRIMITIVE = 0b11;
     
     // ' delimiter in binary ints represents rows on the board.
     
     // Bit masks for mirror operations
-    static const unsigned L_MASK = 0b110000'110000'110000;
-    static const unsigned M_MASK = 0b001100'001100'001100;
-    static const unsigned R_MASK = 0b000011'000011'000011;
+    static const u32 L_MASK = 0b110000'110000'110000;
+    static const u32 M_MASK = 0b001100'001100'001100;
+    static const u32 R_MASK = 0b000011'000011'000011;
     
     
     // Bit masks for rotation operations
-    static const unsigned R1_MASK = 0b110000'000011'000000;
-    static const unsigned R2_MASK = 0b001100'000000'000000;
-    static const unsigned R3_MASK = 0b000011'000000'000000;
-    static const unsigned R4_MASK = 0b000000'001100'000000;
-    static const unsigned R5_MASK = 0b000000'110000'000011;
+    static const u32 R1_MASK = 0b110000'000011'000000;
+    static const u32 R2_MASK = 0b001100'000000'000000;
+    static const u32 R3_MASK = 0b000011'000000'000000;
+    static const u32 R4_MASK = 0b000000'001100'000000;
+    static const u32 R5_MASK = 0b000000'110000'000011;
+    
+    std::unordered_map<u32, u8> cache;
     
 public:
     TTT();
+    
     ~TTT();
     
+    u32 mirror(u32 position);
     
+    u32 rotateR(u32 position);
+    
+    bool checkWin(u32 position, u8 player);
+    
+    bool checkFull(u32 position);
+    
+    u8 changePlayer(u8 player);
+    
+    u32 makeMove(u32 position, u32 move);
+    
+    u32* genMoves(u32 position);
+    
+    u8 primitiveValue(u32 position);
+    
+    void addCache(u32 position, u8 outcome);
+    
+    u8 getCache(u32 position);
+    
+    void printBoard(u32 position);
 };
 
 #endif /* TTT_hpp */

@@ -10,6 +10,8 @@
 
 #include <stdint.h>
 #include <string>
+#include <unordered_map>
+#include <vector>
 
 #include "Game.hpp"
 #include "TTT.hpp"
@@ -18,19 +20,34 @@ typedef uint8_t u8;
 typedef uint32_t u32;
 
 namespace Solver {
-    void solve(u32 position, u8 player, const Game& game);
+    u8 solve(u32 position, u8 player, Game& game);
     
     class GameOutcome {
     private:
         class Result {
         private:
-            std::string value;
+            static const u8 VAL_MASK = 0b11;
+            static const u8 PRIM_MASK = 0b100;
+            static const u8 REM_MASK = 0b11111000;
+            u8 value;
             bool primitive;
+            u8 remoteness;
         public:
             Result(u8 outcome);
-            std::string getVal();
+            u8 getVal();
             bool isPrimitive();
+            u8 getRemote();
         };
+        static const u8 WIN = 0b01;
+        static const u8 TIE = 0b00;
+        static const u8 LOSE = 0b10;
+        std::vector<std::vector<u32>> results;
+        u8 maxRem;
+    public:
+        GameOutcome(const std::unordered_map<u32, u8>& cache, u8 maxRemoteness);
+        u32 sumRow(u8 row);
+        u32 sumCol(u8 col);
+        void print();
     };
 }
 

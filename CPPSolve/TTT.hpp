@@ -85,7 +85,6 @@ public:
     static const u32 BOARD_EMPTY = 0;
     static const u8 PLAYER_X = 0b01;
     static const u8 PLAYER_O = 0b10;
-    u8 MAX_REM = 0b1001;
     
     std::unordered_map<u32, u8> cache;
     

@@ -69,7 +69,6 @@ namespace Solver {
             }
         }
         game.addCache(position, gameResult);
-        //std::cout << (int)game.getRem(gameResult) << std::endl;
         return gameResult;
     }
     
@@ -90,16 +89,21 @@ namespace Solver {
     u8 GameOutcome::Result::getRemote() {
         return this -> remoteness;
     }
-    GameOutcome::GameOutcome(const std::unordered_map<u32, u8>& cache, u8 maxRemoteness) {
-        for (u8 i = 0; i <= this -> maxRem; i++) {
-            results.push_back({0, 0, 0});
-        }
+    GameOutcome::GameOutcome(const std::unordered_map<u32, u8>& cache) {
+        u8 remStore = 0;
+        u8 remTmp;
         for (auto kv : cache) {
             Result res = Result(kv.second);
-            std::cout << res.getRemote() << std::endl;
-            results[res.getRemote()][res.getVal()]++;
+            remTmp = res.getRemote();
+            if (remTmp > remStore) {
+                remStore = remTmp;
+            }
+            while (remTmp >= results.size()) {
+                results.push_back({0, 0, 0});
+            }
+            results[remTmp][res.getVal()]++;
         }
-        this -> maxRem = maxRemoteness;
+        this -> maxRem = remStore;
     }
     
     u32 GameOutcome::sumRow(u8 row) {

@@ -44,7 +44,7 @@ namespace Solver {
         std::vector<std::vector<u32>> results;
         u8 maxRem;
     public:
-        GameOutcome(const std::unordered_map<u32, u8>& cache, u8 maxRemoteness);
+        GameOutcome(const std::unordered_map<u32, u8>& cache);
         u32 sumRow(u8 row);
         u32 sumCol(u8 col);
         void print();

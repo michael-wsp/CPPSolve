@@ -14,7 +14,7 @@
 #include "XtoZero.hpp"
 
 int main() {
-    TTT ttt = TTT(false);
+    TTT ttt = TTT(true);
     
     Solver::solve(TTT::BOARD_EMPTY, TTT::PLAYER_X, ttt);
     
@@ -22,13 +22,25 @@ int main() {
     
     result.print();
     
+    std::cout << std::endl << std::endl;
+    
+    TTT tttSym = TTT(false);
+    
+    Solver::solve(TTT::BOARD_EMPTY, TTT::PLAYER_X, tttSym);
+    
+    Solver::GameOutcome result2 = Solver::GameOutcome(tttSym.cache);
+    
+    result2.print();
+    
+    std::cout << std::endl << std::endl;
+    
     XtoZero xzero = XtoZero(10, {1, 2});
     
     Solver::solve(xzero.startingValue, 1, xzero);
     
-    Solver::GameOutcome res2 = Solver::GameOutcome(xzero.cache);
+    Solver::GameOutcome result3 = Solver::GameOutcome(xzero.cache);
     
-    res2.print();
+    result3.print();
     
     return 0;
 }

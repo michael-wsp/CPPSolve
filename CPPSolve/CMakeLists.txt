@@ -13,4 +13,6 @@ add_executable(CPPSolve
         TTT.cpp
         TTT.hpp
         XtoZero.cpp
-        XtoZero.hpp)
+        XtoZero.hpp
+        TTTNxN.cpp
+        TTTNxN.h)

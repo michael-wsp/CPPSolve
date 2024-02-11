@@ -7,11 +7,12 @@
 
 #include "Solver.hpp"
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <iostream>
 #include <iomanip>
 #include <numeric>
+#include <bitset>
 
 #include "Game.hpp"
 #include "TTT.hpp"
@@ -20,73 +21,21 @@ typedef uint8_t u8;
 typedef uint32_t u32;
 
 namespace Solver {
-    u8 solve(u32 position, u8 player, Game& game) {
-        if (game.checkCache(position)) {
-            return game.getCache(position);
-        }
-        u8 gameResult = game.primitiveValue(position, player);
-        if (!game.isPrimitive(gameResult)) {
-            u8 res;
-            bool win = false;
-            bool tie = false;
-            u8 wRem = 0b11111;
-            u8 tRem = 0b11111;
-            u8 lRem = 0;
-            u8 rem = 0;
-            for (unsigned move : game.genMoves(position, player)) {
-                res = solve(game.makeMove(position, move),
-                            game.changePlayer(player), game);
-                if (game.isLoss(res)) {
-                    win = true;
-                    rem = game.getRem(res);
-                    if (rem < wRem) {
-                        wRem = rem;
-                    }
-                }
-                else if (game.isTie(res)) {
-                    tie = true;
-                    rem = game.getRem(res);
-                    if (rem < tRem) {
-                        tRem = rem;
-                    }
-                }
-                else {
-                    rem = game.getRem(res);
-                    if (rem > lRem) {
-                        lRem = rem;
-                    }
-                }
-            }
-            if (win) {
-                gameResult = game.getWin() | ((wRem + 1) << 3);
-                
-            }
-            else if (tie) {
-                gameResult = game.getTie() | ((tRem + 1) << 3);
-            }
-            else {
-                gameResult = game.getLoss() | ((lRem + 1) << 3);
-            }
-        }
-        game.addCache(position, gameResult);
-        return gameResult;
-    }
-    
     GameOutcome::Result::Result(u8 outcome) {
         value = outcome & VAL_MASK;
         primitive = (outcome & PRIM_MASK) >> 2;
         remoteness = (outcome & REM_MASK) >> 3;
     }
     
-    u8 GameOutcome::Result::getVal() {
+    u8 GameOutcome::Result::getVal() const {
         return this -> value;
     }
     
-    bool GameOutcome::Result::isPrimitive() {
+    bool GameOutcome::Result::isPrimitive() const {
         return this -> primitive;
     }
     
-    u8 GameOutcome::Result::getRemote() {
+    u8 GameOutcome::Result::getRemote() const {
         return this -> remoteness;
     }
     

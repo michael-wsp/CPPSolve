@@ -89,6 +89,7 @@ namespace Solver {
     u8 GameOutcome::Result::getRemote() {
         return this -> remoteness;
     }
+    
     GameOutcome::GameOutcome(const std::unordered_map<u32, u8>& cache) {
         u8 remStore = 0;
         u8 remTmp;

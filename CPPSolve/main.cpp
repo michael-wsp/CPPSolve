@@ -32,6 +32,8 @@ int main() {
     
     result2.print();
     
+    // TTT was 5x faster after removing symmetries! 10ms -> 2ms
+    
     std::cout << std::endl << std::endl;
     
     XtoZero xzero = XtoZero(10, {1, 2});

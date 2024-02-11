@@ -50,17 +50,10 @@ private:
     static const u8 REM_MASK = 0b11111000;
     
     // ' delimiter in binary ints represents rows on the board.
-    
     // Bit masks for mirror operations
     static const u32 L_MASK  = 0b110000'110000'110000;
     static const u32 MV_MASK = 0b001100'001100'001100;
     static const u32 R_MASK  = 0b000011'000011'000011;
-    
-    /*
-    static const u32 T_MASK  = 0b111111'000000'000000;
-    static const u32 MH_MASK = 0b000000'111111'000000;
-    static const u32 B_MASK  = 0b000000'000000'111111;
-     */
     
     // Bit masks for rotation operations
     static const u32 R1_MASK = 0b110000'000011'000000;
@@ -71,16 +64,6 @@ private:
     static const u32 R6_MASK = 0b000000'000000'110000;
     static const u32 R7_MASK = 0b000000'000000'001100;
     
-    /*
-    static const u32 L1_MASK = 0b110000'000000'000000;
-    static const u32 L2_MASK = 0b001100'000000'110000;
-    static const u32 L3_MASK = 0b000000'110000'000000;
-    static const u32 L4_MASK = 0b000000'001100'000000;
-    static const u32 L5_MASK = 0b000011'000000'001100;
-    static const u32 L6_MASK = 0b000000'000011'000000;
-    static const u32 L7_MASK = 0b000000'000000'000011;
-     */
-    
 public:
     static const u32 BOARD_EMPTY = 0;
     static const u8 PLAYER_X = 0b01;
@@ -89,53 +72,29 @@ public:
     std::unordered_map<u32, u8> cache;
     
     TTT(bool sym);
-    
     u32 mirrorV(u32 position);
-    
     u32 mirrorH(u32 position);
-    
     u32 rotateR(u32 position);
-    
     u32 rotateL(u32 postion);
-    
     bool checkWin(u32 position, u8 player);
-    
     bool checkFull(u32 position);
-    
     u8 changePlayer(u8 player);
-    
     u32 makeMove(u32 position, u32 move);
-    
     std::vector<u32> genMoves(u32 position, u8 player);
-    
     u8 primitiveValue(u32 position, u8 player);
-    
     bool isPrimitive(u8 res);
-    
     bool isWin(u8 res);
-    
     bool isTie(u8 res);
-    
     bool isLoss(u8 res);
-    
     u8 getRem(u8 res);
-    
     u8 getWin();
-    
     u8 getTie();
-    
     u8 getLoss();
-    
     u32 getCanon(u32 position);
-    
     void addCache(u32 position, u8 outcome);
-    
     bool checkCache(u32 position);
-    
     u8 getCache(u32 position);
-    
     char playerToChar(u8 player);
-    
     void printBoard(u32 position);
 };
 

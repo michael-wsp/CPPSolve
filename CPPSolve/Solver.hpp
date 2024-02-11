@@ -3,7 +3,6 @@
 //  CPPSolve
 //
 //  Created by Michael Setchko Palmerlee on 2/7/24.
-//
 
 #ifndef Solver_hpp
 #define Solver_hpp
@@ -12,7 +11,6 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-
 #include "Game.hpp"
 #include "TTT.hpp"
 
@@ -21,7 +19,6 @@ typedef uint32_t u32;
 
 namespace Solver {
     u8 solve(u32 position, u8 player, Game& game);
-    
     class GameOutcome {
     private:
         class Result {
@@ -50,5 +47,4 @@ namespace Solver {
         void print();
     };
 }
-
 #endif /* Solver_hpp */

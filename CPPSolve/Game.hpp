@@ -18,7 +18,6 @@ typedef uint32_t u32;
 class Game {
 public:
     std::unordered_map<u32, u8> cache;
-    u8 MAX_REM;
     virtual u8 changePlayer(u8) = 0;
     virtual u32 makeMove(u32, u32) = 0;
     virtual std::vector<u32> genMoves(u32, u8) = 0;
